@@ -1,0 +1,25 @@
+{
+    "name": "sibers/excel_to_doctrine_migration_bundle",
+    "description": "Import data from excel to doctrine",
+    "keywords": ["excel", "dbal", "import data"],
+    "type": "library",
+    "license": "GNU",
+    "minimum-stability": "dev",
+    "authors": [
+        {
+            "name": "Dmitry Bykov",
+            "email": "dmitry.bykov@sibers.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "phpexcel/phpexcel": "v1.7.7",
+        "jms/serializer-bundle": " 0.12.*",
+        "doctrine/dbal": ">=2.4.0"
+    },
+    "autoload": {
+        "psr-0": {"Sibers\\ExcelToDoctrineMigrationBundle": ""}
+    },
+    "target-dir": "Sibers/ExcelToDoctrineMigrationBundle"
+}

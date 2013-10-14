@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<constraint-mapping xmlns="http://symfony.com/schema/dic/constraint-mapping"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping http://symfony.com/schema/dic/constraint-mapping/constraint-mapping-1.0.xsd">
+
+    <class name="Sibers\ExcelToDoctrineMigrationBundle\Migration\Mapping">
+        <property name="destination">
+            <constraint name="Sibers\ExcelToDoctrineMigrationBundle\Validator\Constraints\TableColumnExists"/>
+        </property>
+        <property name="type">
+            <constraint name="Choice">
+                <option name="callback">getColumnTypes</option>
+            </constraint>
+        </property>
+        <property name="onFailure">
+            <constraint name="Choice">
+                <option name="callback">getOnFailureTypes</option>
+            </constraint>
+        </property>
+    </class>
+
+    <class name="Sibers\ExcelToDoctrineMigrationBundle\Migration\Config">
+        <property name="filename">
+            <constraint name="Sibers\ExcelToDoctrineMigrationBundle\Validator\Constraints\File">
+                <option name="extensions">
+                    <value>xls</value>
+                    <value>xlsx</value>
+                </option>
+            </constraint>
+        </property>
+        <property name="table">
+            <constraint name="Sibers\ExcelToDoctrineMigrationBundle\Validator\Constraints\TableExists" />
+        </property>
+        <property name="sheets">
+            <constraint name="Type">
+                <option name="type">array</option>
+            </constraint>
+        </property>
+        <property name="headerRow">
+            <constraint name="Range">
+                <option name="min">0</option>
+                <option name="minMessage">Negative sheets doesn't exists</option>
+            </constraint>
+        </property>
+    </class>
+</constraint-mapping>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        >
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            Author: Dmitry Bykov
+            Description: xls -> dbal export mapping
+        </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:element name="config" type="ConfigType" />
+
+    <xsd:complexType name="ConfigType">
+        <xsd:sequence>
+            <xsd:element name="mappings" type="MappingsType" minOccurs="1" maxOccurs="1" />
+            <xsd:element name="filename" type="xsd:string" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="table" type="xsd:string" minOccurs="1" maxOccurs="1" />
+            <xsd:element name="headerRow" type="xsd:nonNegativeInteger" minOccurs="1" maxOccurs="1" />
+            <xsd:element name="sheets" type="SheetsType" minOccurs="0" maxOccurs="1" />
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="SheetsType">
+        <xsd:sequence>
+            <xsd:element name="sheet" type="xsd:nonNegativeInteger" minOccurs="1" maxOccurs="unbounded" />
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="MappingsType">
+        <xsd:sequence>
+            <xsd:element name="mapping" type="MappingType" minOccurs="1" maxOccurs="unbounded" />
+        </xsd:sequence>
+    </xsd:complexType>
+
+
+    <xsd:element name="column" abstract="true"
+                 type="xsd:string"/>
+
+
+    <xsd:complexType name="SourceType">
+        <xsd:sequence>
+            <xsd:element name="column" type="xsd:string" minOccurs="1" maxOccurs="unbounded" />
+        </xsd:sequence>
+    </xsd:complexType>
+    
+     <xsd:complexType name="ValueProviderOptions">
+        <xsd:sequence>
+            <xsd:element name="option" minOccurs="1" maxOccurs="unbounded">
+                <xsd:complexType>
+                    <xsd:simpleContent>
+                        <xsd:extension base="xsd:string">
+                            <xsd:attribute name="name" type="xsd:string" use="required"/>
+                        </xsd:extension>
+                    </xsd:simpleContent>
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    
+    <xsd:complexType name="MappingType">
+        <xsd:sequence>
+            <xsd:element name="source" type="SourceType" minOccurs="1" maxOccurs="1" />
+
+            <xsd:choice minOccurs="1" maxOccurs="1">
+                <xsd:element name="excelColumn" type="xsd:string" />
+                <xsd:element name="destination" type="xsd:string" />
+            </xsd:choice>
+
+            <xsd:element name="type" minOccurs="1" maxOccurs="1" default="scalar">
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:string">
+                        <xsd:enumeration value="scalar" />
+                        <xsd:enumeration value="formula" />
+                    </xsd:restriction>
+                </xsd:simpleType>
+            </xsd:element>
+
+            <xsd:element name="onFailure" minOccurs="0" maxOccurs="1" default="exception">
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:string">
+                        <xsd:enumeration value="exception" />
+                        <xsd:enumeration value="ignore" />
+                    </xsd:restriction>
+                </xsd:simpleType>
+            </xsd:element>
+            
+            <xsd:element name="valueProviderName" minOccurs="0" maxOccurs="1" default="scalar">
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:string">
+                        <xsd:enumeration value="scalar" />
+                        <xsd:enumeration value="date" />
+                        <xsd:enumeration value="concatenate" />
+                    </xsd:restriction>
+                </xsd:simpleType>
+            </xsd:element>
+            
+            <xsd:element name="valueProviderOptions" type="ValueProviderOptions" minOccurs="0" maxOccurs="1" /> 
+            
+        </xsd:sequence>
+    </xsd:complexType>
+
+</xsd:schema>

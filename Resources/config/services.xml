@@ -1,0 +1,40 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <!--validators-->
+        <service id="sibers.validator.table_exists" class="Sibers\ExcelToDoctrineMigrationBundle\Validator\Constraints\TableExistsValidator">
+            <argument type="service" id="doctrine.dbal.default_connection" />
+            <tag name="validator.constraint_validator" alias="sibers.validator.table_exists" />
+        </service>
+
+        <service id="sibers.validator.table_column_exists" class="Sibers\ExcelToDoctrineMigrationBundle\Validator\Constraints\TableColumnExistsValidator">
+            <argument type="service" id="doctrine.dbal.default_connection" />
+            <tag name="validator.constraint_validator" alias="sibers.validator.table_column_exists" />
+        </service>
+
+        <!--migrator-->
+        <service id="sibers.excel_migrator" class="Sibers\ExcelToDoctrineMigrationBundle\Migration\Migrator">
+            <argument type="service" id="doctrine.dbal.default_connection" />
+        </service>
+        
+        <!--value providers-->
+        <service id="sibers_excel_to_doctrine_migration.value_provider.scalar"
+                 class="Sibers\ExcelToDoctrineMigrationBundle\ValueProvider\ScalarProvider">
+            <tag name="sibers_excel_to_doctrine_migration.value_provider" providerName="scalar" />
+        </service>
+        
+        <service id="sibers_excel_to_doctrine_migration.value_provider.date"
+                 class="Sibers\ExcelToDoctrineMigrationBundle\ValueProvider\DateProvider">
+            <tag name="sibers_excel_to_doctrine_migration.value_provider" providerName="date" />
+        </service>
+        
+        <service id="sibers_excel_to_doctrine_migration.value_provider.concatenate"
+                 class="Sibers\ExcelToDoctrineMigrationBundle\ValueProvider\ConcatenateProvider">
+            <tag name="sibers_excel_to_doctrine_migration.value_provider" providerName="concatenate" />
+        </service>
+    </services>
+</container>
